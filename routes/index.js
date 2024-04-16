@@ -20,4 +20,13 @@ router.get("/log-out", user_controller.logout_get)
 router.get("/member", user_controller.member_get);
 
 router.post("/member", user_controller.member_post);
+
+router.get("/admin", user_controller.admin_form_get);
+
+router.post("/admin", user_controller.admin_form_post);
+
+router.get("/admin/dashboard", user_controller.admin_dashboard_get);
+
+router.post("/admin/dashboard", user_controller.admin_dashboard_post);
+
 module.exports = router;

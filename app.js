@@ -12,6 +12,7 @@ const userRouter = require('./routes/user');
 require('dotenv').config()
 const User = require("./models/user")
 const bcrypt = require("bcryptjs");
+const flash = require('connect-flash');
 
 
 const app = express();
@@ -29,7 +30,7 @@ app.set('view engine', 'ejs');
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());

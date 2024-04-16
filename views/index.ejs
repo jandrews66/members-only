@@ -5,6 +5,9 @@
   <title><%= title %></title>
 </head>
 <body>
+  <% if (typeof currentUser !== "undefined" && currentUser.isAdmin) { %>
+    <a href="/admin/dashboard">Admin Dashboard</a>
+  <% } %>
   <h1>Welcome to members only</h1>
 
   <% if (currentUser) {%>
@@ -15,6 +18,7 @@
     <a href="/member">Become a member</a>
         <% } else { %>
           <p>You are a member.</p>
+          <a href="/admin">Admin?</a>
           <form action="" method="POST">
             <label for="title">Title:</label>
             <input name="title" placeholder="Add a title" type="text" required />

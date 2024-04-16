@@ -5,7 +5,7 @@ const User = require("../models/user");
 const Message = require("../models/message");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-
+const isAdmin = require("../routes/authMiddleware").isAdmin;
 
 
 exports.index_get = asyncHandler(async (req, res, next) => {
@@ -135,8 +135,40 @@ exports.member_post = [
         if (!errors.isEmpty()){
             return res.render("member_form", {errors: errors.array()});
         }
-        const updateMembership = await User.findByIdAndUpdate(res.locals.currentUser, {isMember: true})
+        await User.findByIdAndUpdate(res.locals.currentUser, {isMember: true})
+
         res.redirect("/");
 
     })
 ]
+
+exports.admin_form_get = asyncHandler(async (req, res, next) => {
+    res.render('admin_form', { 
+    });
+})
+
+exports.admin_form_post = asyncHandler(async (req, res, next) => {
+        console.log(req.body.admin)     
+        if (req.body.admin === "on"){
+            await User.findByIdAndUpdate(res.locals.currentUser, {isAdmin: true})
+        }
+    res.render('admin_dashboard', { 
+    });
+})
+
+exports.admin_dashboard_get = [
+    isAdmin,
+    asyncHandler(async (req, res, next) => {
+        const allMessages = await Message.find().sort({ timestamp: -1}).populate("user").exec();
+    
+        res.render('admin_dashboard', { 
+            allMessages: allMessages,
+        });
+    })
+]
+
+exports.admin_dashboard_post = asyncHandler(async (req, res, next) => {
+    
+    res.render('admin_dasboard', { 
+    });
+})
