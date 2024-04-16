@@ -6,8 +6,48 @@
 </head>
 <body>
   <h1>Welcome to members only</h1>
-  <a href="/log-in">Log in</a>
-  <a href="/sign-up">Sign Up</a>
 
+  <% if (currentUser) {%>
+    <h1>WELCOME BACK <%= currentUser.username %></h1>
+    <a href="/log-out">LOG OUT</a>
+      <% if (!currentUser.isMember) { %>
+    <p>You need a membership to be able to create a new message</p>
+    <a href="/member">Become a member</a>
+        <% } else { %>
+          <p>You are a member.</p>
+          <form action="" method="POST">
+            <label for="title">Title:</label>
+            <input name="title" placeholder="Add a title" type="text" required />
+            <label for="comment">Message:</label>
+            <textarea name="comment" placeholder="Add a comment" rows="5" required></textarea>
+            <button>Send</button>
+          </form>
+          <% } %>
+  <% } else { %>
+    <a href="/log-in">Log in</a>
+    <a href="/sign-up">Sign Up</a>
+  <% } %>
+  <% if (typeof allMessages !== "undefined") { %>
+    <ul>
+      <% allMessages.forEach(function(message) { %>
+        <li>
+          <% if (currentUser && currentUser.isMember) { %>
+          <strong><%= message.user.username %> says:</strong>
+          <% } else { %>
+          <strong>Anonymous says:</strong>
+          <% } %>
+          <%= message.title %>
+          <%= message.comment %>
+        </li>
+        <% }); %>
+    </ul>
+    <% } %>
+    <% if (typeof errors !== "undefined") { %>
+      <ul>
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }); %>
+      </ul>
+    <% } %>
 </body>
 </html>

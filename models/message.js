@@ -6,11 +6,10 @@ const MessageSchema = new Schema({
     title: { type: String, required: true, maxLength: 30 },
     comment: { type: String, required: true, maxLength: 60 },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    timestamp: { type: Date.now }
-})
+    timestamp: { type: Date, default: Date.now }})
 
-UserSchema.virtual("url").get(function () {
+MessageSchema.virtual("url").get(function () {
     return `/message/${this._id}`;
 })
 
-module.exports = mongoose.model("Message", AuthorSchema);
+module.exports = mongoose.model("Message", MessageSchema);

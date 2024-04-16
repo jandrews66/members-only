@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+    <form action="/member" method="POST">
+        <label for="secret_code">Enter the secret code (Hint: the year England won the World Cup)</label>
+        <input name="secret_code" type="password" />
+        <button>Enter</button>
+      </form>
+      <% if (typeof errors !== "undefined") { %>
+        <ul>
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+</body>
+</html>
