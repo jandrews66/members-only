@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= title %></title>
 </head>
 <body>
+  <p class="text-red-500">Welcome to <%= title %></p>
+
   <% if (typeof currentUser !== "undefined" && currentUser.isAdmin) { %>
     <a href="/admin/dashboard">Admin Dashboard</a>
   <% } %>
@@ -14,11 +15,13 @@
     <h1>WELCOME BACK <%= currentUser.username %></h1>
     <a href="/log-out">LOG OUT</a>
       <% if (!currentUser.isMember) { %>
-    <p>You need a membership to be able to create a new message</p>
-    <a href="/member">Become a member</a>
-        <% } else { %>
-          <p>You are a member.</p>
-          <a href="/admin">Admin?</a>
+        <p>You need a membership to be able to create a new message</p>
+        <a href="/member">Become a member</a>
+      <% } else { %>
+        <p>You are a member.</p>
+          <% if (!currentUser.isAdmin) { %>
+            <a href="/admin">Admin?</a>
+          <% } %>
           <form action="" method="POST">
             <label for="title">Title:</label>
             <input name="title" placeholder="Add a title" type="text" required />
