@@ -5,7 +5,7 @@
   <title></title>
 </head>
 <body>
-  <h1>Admin</h1>
+  <h1>Admin Dashboard</h1>
 
   <% if (typeof allMessages !== "undefined") { %>
     <ul>
@@ -15,6 +15,10 @@
             <%= message.timestamp %>
             <%= message.title %>
             <%= message.comment %>
+            <form method="POST">
+              <input type="hidden" name="messageid" value="<%= message._id %>">
+              <button type="sumit">Delete</button>
+            </form>
         </li>
         <% }); %>
     </ul>

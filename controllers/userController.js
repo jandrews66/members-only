@@ -157,7 +157,7 @@ exports.admin_form_post = asyncHandler(async (req, res, next) => {
 })
 
 exports.admin_dashboard_get = [
-    isAdmin,
+    isAdmin, //call admin middleware to 
     asyncHandler(async (req, res, next) => {
         const allMessages = await Message.find().sort({ timestamp: -1}).populate("user").exec();
     
@@ -168,7 +168,6 @@ exports.admin_dashboard_get = [
 ]
 
 exports.admin_dashboard_post = asyncHandler(async (req, res, next) => {
-    
-    res.render('admin_dasboard', { 
-    });
+    await Message.findByIdAndDelete(req.body.messageid);
+    res.redirect('/admin/dashboard')
 })
