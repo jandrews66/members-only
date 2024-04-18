@@ -95,7 +95,7 @@ exports.signup_post = [
                   password: hashedPassword,
                 });
                 const result = await user.save();
-                res.redirect("/");
+                res.redirect("/login");
             } catch (err) {
                 console.log("Error saving user:", err)
                 return next(err);
@@ -137,7 +137,7 @@ exports.member_get = asyncHandler(async (req, res, next) => {
 })
 
 exports.member_post = [
-    body("secret_code", "Wrong code").custom((value, { req }) => {
+    body("secret_code", "Error: Incorrect Code").custom((value, { req }) => {
         return value === "1966";
       }),
       asyncHandler(async (req, res, next) => {
@@ -161,9 +161,8 @@ exports.admin_form_post = asyncHandler(async (req, res, next) => {
         console.log(req.body.admin)     
         if (req.body.admin === "on"){
             await User.findByIdAndUpdate(res.locals.currentUser, {isAdmin: true})
+            res.redirect('admin/dashboard');
         }
-    res.render('admin_dashboard', { 
-    });
 })
 
 exports.admin_dashboard_get = [

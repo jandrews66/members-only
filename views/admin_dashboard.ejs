@@ -9,23 +9,25 @@
 <body>
   <%- include("./partials/nav.ejs") %>
 
-  <h1>Admin Dashboard</h1>
+  <div class="container mx-auto px-6 py-6 flex flex-col justify-center items-center gap-5" >
+    <h1 class="font-bold text-2xl text-blue-900">Admin Dashboard</h1>
+    <% if (typeof allMessages !== "undefined") { %>
+      <ul>
+        <% allMessages.forEach(function(message) { %>
+          <li class="bg-white shadow-md rounded px-6 py-3 mb-4 border-2 border-black my-2 py- flex flex-col" style="width: 600px; height: 200px;">
+              <p><strong>Created at: </strong><%= message.timestamp.toLocaleString('en-US', {timeZoneName: 'short'}); %></p>
+              <p><strong>Title: </strong><%= message.title %></p>
+              <p><strong>Comment: </strong><%= message.comment %></p>
+              <p><strong>Username: </strong><%= message.user.username %></p>
+              <form class=" ml-auto"method="POST">
+                <input type="hidden" name="messageid" value="<%= message._id %>">
+                <button class="btn bg-red-600"type="sumit">Delete</button>
+              </form>
+          </li>
+          <% }); %>
+      </ul>
+      <% } %>
+  </div>
 
-  <% if (typeof allMessages !== "undefined") { %>
-    <ul>
-      <% allMessages.forEach(function(message) { %>
-        <li>
-            <%= message.username %>
-            <%= message.timestamp %>
-            <%= message.title %>
-            <%= message.comment %>
-            <form method="POST">
-              <input type="hidden" name="messageid" value="<%= message._id %>">
-              <button type="sumit">Delete</button>
-            </form>
-        </li>
-        <% }); %>
-    </ul>
-    <% } %>
 </body>
 </html>
