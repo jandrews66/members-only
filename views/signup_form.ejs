@@ -5,27 +5,35 @@
   <title></title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
-<body>
-  <h1>Sign Up</h1>
-  <form action="" method="POST">
-    <label for="first_name">First Name</label>
-    <input name="first_name" placeholder="Joe" type="text" required/>
-    <label for="last_name">Last Name</label>
-    <input name="last_name" placeholder="Bloggs" type="text" required/>
-    <label for="username">Username</label>
-    <input name="username" placeholder="username" type="text" required/>
-    <label for="password">Password</label>
-    <input name="password" type="password" required/>
-    <label for="confirm_password">Confirm Password</label>
-    <input name="confirm_password" type="password" required/>
-    <button>Sign Up</button>
-  </form>
-  <% if (typeof errors !== "undefined") { %>
-    <ul>
-      <% errors.forEach(function(error) { %>
-        <li><%= error.msg %></li>
-      <% }); %>
-    </ul>
-  <% } %>
+<body class="bg-gray-50">
+  <%- include("./partials/nav.ejs") %>
+  <div class="flex flex-col justify-center items-center gap-5">
+    <h1 class="font-bold text-2xl text-blue-900">Sign Up</h1>
+    <div class="w-full max-w-xs">
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="" method="POST">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">First Name</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="first_name" placeholder="Joe" type="text" required/>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="last_name">Last Name</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="last_name" placeholder="Bloggs" type="text" required/>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="username" placeholder="JoeyBloggs1992" type="text" required/>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" type="password" placeholder="********" required/>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">Confirm Password</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="confirm_password" type="password" placeholder="********" required/>
+        <button class="btn btn-blue">Sign Up</button>
+        <% if (typeof errors !== "undefined") { %>
+          <ul>
+            <% errors.forEach(function(error) { %>
+              <li class="text-red-500"><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </form>
+    </div>
+  </div>
+
+
+
 </body>
 </html>

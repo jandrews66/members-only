@@ -6,87 +6,64 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 
 </head>
-<nav>
-  <div class="container mx-auto px-6 py-2 flex justify-between items-center">
-    <a class="font-bold text-2xl lg:text-4xl" href="#">
-      Members Only!
-    </a>
-    <div class="block sm:hidden">
-      <button class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-teal-500 appearance-none focus:outline-none">
-        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-        </svg>
-      </button>
-    </div>
-    <div class="hidden sm:block">
-      <ul class="inline-flex">
-        <li><a class="px-4 font-bold" href="/">Home</a></li>
-        <% if (currentUser) { %>
-          <li><a class="px-4 hover:text-blue-800" href="/log-out">Log Out</a></li>
-          <% } else { %>
-            <li><a class="px-4 hover:text-blue-800" href="/log-in">Log In</a></li>
-            <% } %>
-        <li><a class="px-4 hover:text-blue-800" href="/sign-up">Sign Up</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<body>
-  <% if (typeof currentUser !== "undefined" && currentUser.isAdmin) { %>
-    <a href="/admin/dashboard">Admin Dashboard</a>
-  <% } %>
-  <h1 class="text-red-500">Welcome to members only</h1>
+<%- include("./partials/nav.ejs") %>
 
-  <% if (currentUser) {%>
-    <h1>WELCOME BACK <%= currentUser.username %></h1>
+<body class="bg-gray-50">
+
+  <% if (currentUser) { %>
+    <div class="container mx-auto px-6 py-8 flex flex-col justify-center items-center gap-5">
+      <h1 class="font-bold text-2xl text-blue-900">Welcome Back <%= currentUser.username %></h1>
       <% if (!currentUser.isMember) { %>
-    <p>You need a membership to be able to create a new message</p>
-    <a href="/member">Become a member</a>
-        <% } else { %>
-          <p>You are a member.</p>
-          <a href="/admin">Admin?</a>
-          <form action="" method="POST">
-            <label for="title">Title:</label>
-            <input name="title" placeholder="Add a title" type="text" required />
-            <label for="comment">Message:</label>
-            <textarea name="comment" placeholder="Add a comment" rows="5" required></textarea>
-            <button>Send</button>
-          </form>
-          <% } %>
-  <% } else { %>
-    <a href="/log-in">Log in</a>
-    <a href="/sign-up">Sign Up</a>
-  <% } %>
-  <% if (typeof allMessages !== "undefined") { %>
-    <ul>
-      <% allMessages.forEach(function(message) { %>
-        <li>
-          <% if (currentUser && currentUser.isMember) { %>
-          <strong><%= message.user.username %> says:</strong>
-          <% } else { %>
-          <strong>Anonymous says:</strong>
-          <% } %>
-          <%= message.title %>
-          <%= message.comment %>
-        </li>
-        <% }); %>
-    </ul>
-    <% } %>
-    <% if (typeof errors !== "undefined") { %>
-      <ul>
-        <% errors.forEach(function(error) { %>
-          <li><%= error.msg %></li>
-        <% }); %>
-      </ul>
-    <% } %>
-    <button class="btn btn-blue">
-      Button
-    </button>
+        <p>You need a membership to be able to create a new message.</p>
+        <a href="/member" class="btn btn-blue">Become a member</a>
+      <% } %>
+      <% if (currentUser.isMember && !currentUser.isAdmin) { %>
+        <a href="/admin">Become an Admin</a>
+      <% } %>
+      <% if (currentUser.isAdmin) { %>
+        <a href="/admin/dashboard" class="btn btn-gray">Admin Dashboard</a>
+      <% } %>
+    </div>
+  <% } %> 
     
-    <button class="btn btn-blue">
-      Sign up
-    </button>
+  <div class="container mx-auto px-6 py-6 flex flex-col justify-center items-center gap-5" >
+    <% if (typeof allMessages !== "undefined") { %>
+      <ul>
+        <% allMessages.forEach(function(message, index) { %>
+          <li class="border-2 border-black my-2 px-3 py-2 rounded-lg relative" style="width: 340px; height: 110px; <% if (index % 2 === 1) { %>margin-left: 20px;<% } %>">
+            <strong><%= message.title %></strong>
+            <hr>
+            <p style="word-wrap: break-word;"><%= message.comment %></p>
+            <% if (currentUser && currentUser.isMember) { %>
+            <p class="absolute bottom-1 right-2">by <%= message.user.username %></p>
+            <% } else { %>
+            <p class="absolute bottom-1 right-2">by Anonymous</p>
+            <% } %>
+
+          </li>
+          <% }); %>
+      </ul>
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border-2 border-black my-2 px-3 py-2 rounded-lg" action="" method="POST">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Title:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="title" placeholder="Add a title" type="text" maxlength="30" required />
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="comment">Message:</label>
+        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="comment" placeholder="Add a comment" rows="3" maxlength="60" required></textarea>
+        <button class="btn btn-gray">Send</button>
+      </form>
+      <% } %>
+      <% if (typeof errors !== "undefined") { %>
+        <ul>
+          <% errors.forEach(function(error) { %>
+            <li class="text-red-500"><%= error.msg %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+  </div>
+
+
+
+
+
     
 </body>
 </html>

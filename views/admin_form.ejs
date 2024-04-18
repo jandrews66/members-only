@@ -6,8 +6,10 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body>
+    <%- include("./partials/nav.ejs") %>
+
     <form action="/admin" method="POST">
-        <label for="admin">Are you definitely an admin? (don't lie)</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="admin">Are you definitely an admin? (don't lie)</label>
         <input type="checkbox" name="admin" />
         <button>Enter</button>
       </form>

@@ -20,4 +20,6 @@
     .btn-gray:hover {
       @apply bg-gray-500;
     }
+
+    
   }

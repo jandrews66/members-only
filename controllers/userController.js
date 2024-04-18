@@ -107,9 +107,19 @@ exports.signup_post = [
 exports.login_get = asyncHandler(async (req, res, next) => res.render("login_form"))
 
 exports.login_post = asyncHandler(async (req, res, next) => {
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/"
+    passport.authenticate("local", (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.render("login_form", { error: "Invalid username or password." }); // render login form again with errors
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect("/"); // Redirect to the home page upon successful login
+        });
     })(req, res, next); // Call the middleware here
 });
 
