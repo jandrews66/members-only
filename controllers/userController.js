@@ -95,7 +95,7 @@ exports.signup_post = [
                   password: hashedPassword,
                 });
                 const result = await user.save();
-                res.redirect("/login");
+                res.redirect("/log-in");
             } catch (err) {
                 console.log("Error saving user:", err)
                 return next(err);
@@ -166,7 +166,7 @@ exports.admin_form_post = asyncHandler(async (req, res, next) => {
 })
 
 exports.admin_dashboard_get = [
-    isAdmin, //call admin middleware to 
+    isAdmin, //call admin middleware to check is user is an admin 
     asyncHandler(async (req, res, next) => {
         const allMessages = await Message.find().sort({ timestamp: -1}).populate("user").exec();
     

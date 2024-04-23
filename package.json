@@ -1,6 +1,9 @@
 {
   "name": "members-only",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.13.0"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -9,11 +12,11 @@
     "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css",
     "watch-css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css --watch",
     "dev": "concurrently \"npm run watch-css\" \"npm run devstart\""
-
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -21,8 +24,10 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-async-handler": "^1.2.0",
+    "express-rate-limit": "^7.2.0",
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
     "http-errors": "~1.6.3",
     "mongoose": "^8.3.1",
     "morgan": "~1.9.1",

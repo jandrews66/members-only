@@ -8,11 +8,13 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
 require('dotenv').config()
 const User = require("./models/user")
 const bcrypt = require("bcryptjs");
 const flash = require('connect-flash');
+const compression = require("compression");
+const helmet = require("helmet");
+
 
 
 const app = express();
@@ -27,6 +29,7 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(compression()); // Compress all routes
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
@@ -36,13 +39,22 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Set up rate limiter: maximum of twenty requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
+
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
 
 app.use('/', indexRouter);
-// app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

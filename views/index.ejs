@@ -24,8 +24,12 @@
         <a href="/admin/dashboard" class="btn btn-gray">Admin Dashboard</a>
       <% } %>
     </div>
-  <% } %> 
-    
+  <% } else { %> 
+    <div class="container mx-auto px-6 py-4 flex flex-col justify-center items-center gap-5">
+      <a href ="/log-in" class="font-bold text-xl text-blue-900">Log in and become a member to post messages</a>
+    </div>
+  <% } %>
+
   <div class="container mx-auto px-6 py-6 flex flex-col justify-center items-center gap-5" >
     <% if (typeof allMessages !== "undefined") { %>
       <ul>

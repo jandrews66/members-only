@@ -6,7 +6,7 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 
 </head>
-<body>
+<body class="bg-gray-50">
   <%- include("./partials/nav.ejs") %>
 
   <div class="container mx-auto px-6 py-6 flex flex-col justify-center items-center gap-5" >
@@ -14,12 +14,12 @@
     <% if (typeof allMessages !== "undefined") { %>
       <ul>
         <% allMessages.forEach(function(message) { %>
-          <li class="bg-white shadow-md rounded px-6 py-3 mb-4 border-2 border-black my-2 py- flex flex-col" style="width: 600px; height: 200px;">
+          <li class="bg-white shadow-md rounded px-4 py-2 mb-4 border-2 border-black my-2 py- flex flex-col" style="width: 600px; height: 160px;">
               <p><strong>Created at: </strong><%= message.timestamp.toLocaleString('en-US', {timeZoneName: 'short'}); %></p>
               <p><strong>Title: </strong><%= message.title %></p>
               <p><strong>Comment: </strong><%= message.comment %></p>
               <p><strong>Username: </strong><%= message.user.username %></p>
-              <form class=" ml-auto"method="POST">
+              <form class="mt-auto ml-auto"method="POST">
                 <input type="hidden" name="messageid" value="<%= message._id %>">
                 <button class="btn bg-red-600"type="sumit">Delete</button>
               </form>
